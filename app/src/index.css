@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Coolvetica';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/coolvetica.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Rochaline';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/rochaline.otf') format('opentype');
+}
+
+@layer components {
+  .spacing {
+    @apply w-full md:w-11/12 lg:w-4/5 mx-auto;
+  }
+}

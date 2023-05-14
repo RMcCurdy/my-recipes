@@ -7,7 +7,13 @@ import reportWebVitals from './reportWebVitals'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <MyRecipeRoutes />
+    <div className="bg-emerald-200 min-h-screen">
+      <div className="spacing">
+        <div className="px-8">
+          <MyRecipeRoutes />
+        </div>
+      </div>
+    </div>
   </React.StrictMode>
 )
 
