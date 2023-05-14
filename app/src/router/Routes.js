@@ -10,10 +10,10 @@ export default function MyRecipeRoutes() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/recipes" element={<Recipes />} />
-        <Route path="/recipe/:recipeId" element={<Recipe />} />
-        <Route path="/calculator" element={<Calculator />} />
+        <Route path="/my-recipes" element={<Home />} />
+        <Route path="/my-recipes/recipes" element={<Recipes />} />
+        <Route path="/my-recipes/recipe/:recipeId" element={<Recipe />} />
+        <Route path="/my-recipes/calculator" element={<Calculator />} />
       </Routes>
     </BrowserRouter>
   )
