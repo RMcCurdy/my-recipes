@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 const Recipes = () => {
   const navigate = useNavigate()
 
-  function handleClick(userId: number) {
-    navigate(`/recipe/${userId}`)
+  function handleClick(userId: string) {
+    navigate(`/my-recipes/recipe/${userId}`)
   }
 
   return (

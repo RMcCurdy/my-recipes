@@ -8,7 +8,7 @@ export const AuthContext = createContext({
 
 // Create a provider component
 export const AuthProvider = ({ children }: any) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false)
+  const [authenticated, setAuthenticated] = useState<boolean>(true)
 
   return (
     <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
