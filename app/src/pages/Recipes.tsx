@@ -16,9 +16,12 @@ const Recipes = () => {
           ➕
         </button>
       </div>
-      {data.map((dataPoint) => {
+      {data.map((dataPoint, dataIndex) => {
         return (
-          <div className="bg-white rounded-lg">
+          <div
+            key={`${dataPoint.id}_${dataIndex}`}
+            className="bg-white rounded-lg"
+          >
             <div className="rounded-t-lg overflow-hidden h-32 lg:h-64 flex justify-center items-center">
               <img
                 className="w-full h-auto"
