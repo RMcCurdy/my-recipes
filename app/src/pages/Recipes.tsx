@@ -10,6 +10,12 @@ const Recipes = () => {
 
   return (
     <div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="bg-white rounded-lg flex justify-center items-center text-center">
+        <div className="mr-2">New Recipe</div>
+        <button className="text-xl" onClick={() => navigate('/my-recipes/add')}>
+          ➕
+        </button>
+      </div>
       {data.map((dataPoint) => {
         return (
           <div className="bg-white rounded-lg">

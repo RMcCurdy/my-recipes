@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import MyRecipeRoutes from './router/Routes'
 import reportWebVitals from './reportWebVitals'
+import { AuthProvider } from './context/AuthContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -10,7 +11,9 @@ root.render(
     <div className="bg-emerald-200 min-h-screen">
       <div className="spacing">
         <div className="px-8">
-          <MyRecipeRoutes />
+          <AuthProvider>
+            <MyRecipeRoutes />
+          </AuthProvider>
         </div>
       </div>
     </div>
