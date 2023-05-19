@@ -43,11 +43,6 @@ const RecipePreview = (props: RecipesProps) => {
           />
         )}
       </div>
-      {/* <div className="flex items-center justify-center h-32 overflow-hidden rounded-t-lg lg:h-64">
-        {imageFromStorage && (
-          <img className="w-full h-auto" src={imageFromStorage} alt="recipe" />
-        )}
-      </div> */}
       <div className="p-3">
         <div className="text-lg font-coolvetica lg:text-2xl">{title}</div>
         <div>{subtitle}</div>
