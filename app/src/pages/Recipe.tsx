@@ -1,6 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { DataContext } from '../context/DataContext'
+import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
 import link from '../images/link.png'
 
 const Recipe = () => {
@@ -14,7 +15,26 @@ const Recipe = () => {
     }
   })
 
-  console.log(data && recipeId && data[recipeId])
+  const [imageFromStorage, setImageFromStorage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (
+      !imageFromStorage &&
+      data &&
+      recipeId &&
+      data.hasOwnProperty(recipeId)
+    ) {
+      const storage = getStorage()
+      const imageRef = storageRef(storage, `images/${data[recipeId].image}`)
+      getDownloadURL(imageRef)
+        .then((url) => {
+          setImageFromStorage(url)
+        })
+        .catch(() => {
+          console.log('ERROR')
+        })
+    }
+  })
 
   return (
     <>
@@ -44,11 +64,13 @@ const Recipe = () => {
                 </div>
               )}
             </div>
-            <img
-              className="z-0 w-full h-auto brightness-50"
-              src={data[recipeId].image}
-              alt="recipe"
-            />
+            {imageFromStorage && (
+              <img
+                className="z-0 w-full h-auto brightness-50"
+                src={imageFromStorage}
+                alt="recipe"
+              />
+            )}
           </div>
           <div className="p-4">
             <div className="mb-4 text-2xl font-semibold">Ingredients</div>

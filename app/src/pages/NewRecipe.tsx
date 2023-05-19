@@ -148,8 +148,8 @@ const NewRecipe = () => {
       <div>
         <div className="mb-3 text-lg">Ingredients</div>
         <div>
-          {values.ingredients.map((input) => (
-            <div className="flex items-center">
+          {values.ingredients.map((input, index) => (
+            <div key={`${input.id}_${index}`} className="flex items-center">
               <input
                 className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 key={input.id}
@@ -178,7 +178,7 @@ const NewRecipe = () => {
       <div>
         <div className="mb-3 text-lg">Directions</div>
         {values.instructions.map((input, index) => (
-          <>
+          <div key={`${input.id}_${index}`}>
             <div className="mb-1">Step {index + 1}</div>
             <div className="flex items-center">
               <input
@@ -196,7 +196,7 @@ const NewRecipe = () => {
                 X
               </div>
             </div>
-          </>
+          </div>
         ))}
         <button
           className="px-3 py-2 bg-green-300 rounded"

@@ -21,16 +21,20 @@ const RecipePreview = (props: RecipesProps) => {
   const [imageFromStorage, setImageFromStorage] = useState<string | null>(null)
 
   useEffect(() => {
-    const storage = getStorage()
-    const imageRef = storageRef(storage, `images/${image}`)
-    getDownloadURL(imageRef)
-      .then((url) => {
-        setImageFromStorage(url)
-      })
-      .catch(() => {
-        console.log('ERROR')
-      })
+    if (!imageFromStorage) {
+      const storage = getStorage()
+      const imageRef = storageRef(storage, `images/${image}`)
+      getDownloadURL(imageRef)
+        .then((url) => {
+          setImageFromStorage(url)
+        })
+        .catch(() => {
+          console.log('ERROR')
+        })
+    }
   })
+
+  console.log('rendering')
 
   return (
     <div key={key} className="bg-white rounded-lg">
