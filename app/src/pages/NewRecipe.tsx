@@ -29,14 +29,18 @@ const NewRecipe = () => {
     console.log(values)
     console.log(imageUpload)
     console.log(imagePreview)
-    const today = new Date()
-    const month = today.getMonth() + 1 // JavaScript counts months from 0, so add 1
-    const day = today.getDate()
-    const year = today.getFullYear()
-    const database = getDatabase()
-    const dbRef = ref(database, `recipes/shrimpRiceWraps${month}${day}${year}`)
-    // Set data at the location
     if (values.title && values.image) {
+      const today = new Date()
+      const month = today.getMonth() + 1 // JavaScript counts months from 0, so add 1
+      const day = today.getDate()
+      const year = today.getFullYear()
+      const database = getDatabase()
+      const dbRef = ref(
+        database,
+        `recipes/${values.title.replace(/\s/g, '')}${month}${day}${year}`
+      )
+      console.log('setting')
+      // Set data at the location
       set(dbRef, {
         id: `${values.title.replace(/\s/g, '')}${month}${day}${year}`,
         title: values.title,
@@ -164,7 +168,7 @@ const NewRecipe = () => {
         />
       </div>
       <button
-        className="bg-green-300 px-3 py-2 rounded"
+        className="px-3 py-2 bg-green-300 rounded"
         onClick={() => handleAddNewRecipe()}
       >
         Add

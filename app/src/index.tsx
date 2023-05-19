@@ -4,15 +4,18 @@ import './index.css'
 import MyRecipeRoutes from './router/Routes'
 import reportWebVitals from './reportWebVitals'
 import { AuthProvider } from './context/AuthContext'
+import { DataProvider } from './context/DataContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <div className="bg-emerald-200 min-h-screen">
+    <div className="min-h-screen bg-emerald-200">
       <div className="spacing">
         <div className="px-8">
           <AuthProvider>
-            <MyRecipeRoutes />
+            <DataProvider>
+              <MyRecipeRoutes />
+            </DataProvider>
           </AuthProvider>
         </div>
       </div>

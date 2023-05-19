@@ -8,22 +8,22 @@ const Header = () => {
   const navigate = useNavigate()
   return (
     <>
-      <div className="px-8 py-4 md:flex items-center justify-between text-lg">
+      <div className="items-center justify-between px-8 py-4 text-lg md:flex">
         <div
-          onClick={() => navigate('my-recipes')}
-          className="flex items-center justify-center mb-2 md:mb-0 font-rochaline text-2xl hover:cursor-pointer"
+          onClick={() => navigate('/my-recipes')}
+          className="flex items-center justify-center mb-2 text-2xl md:mb-0 font-rochaline hover:cursor-pointer"
         >
           <img className="w-10 mx-2" src={logo} alt="Recipe Icon" />
           <div className="mx-2">Let's Cook!</div>
         </div>
         <nav>
-          <ul className="font-light flex justify-center space-x-8 text-sm md:text-base lg:text-lg">
+          <ul className="flex justify-center space-x-8 text-sm font-light md:text-base lg:text-lg">
             <li
               className="hover:underline hover:cursor-pointer"
               onClick={() =>
                 authenticated
-                  ? navigate('my-recipes/recipes')
-                  : navigate('my-recipes')
+                  ? navigate('/my-recipes/recipes')
+                  : navigate('/my-recipes')
               }
             >
               Recipes
@@ -32,8 +32,8 @@ const Header = () => {
               className="hover:underline hover:cursor-pointer"
               onClick={() =>
                 authenticated
-                  ? navigate('my-recipes/calculator')
-                  : navigate('my-recipes')
+                  ? navigate('/my-recipes/calculator')
+                  : navigate('/my-recipes')
               }
             >
               Ingredients Calculator
