@@ -9,7 +9,7 @@ import { DataProvider } from './context/DataContext'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <div className="min-h-screen bg-emerald-200">
+    <div className="min-h-screen max-w-screen bg-emerald-200">
       <div className="spacing">
         <div className="px-8 pb-16">
           <AuthProvider>

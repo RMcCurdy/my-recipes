@@ -29,7 +29,7 @@ const Recipes = () => {
     <div className="grid grid-cols-1 gap-4 py-4 md:grid-cols-2 lg:grid-cols-4">
       <div
         onClick={() => navigate('/my-recipes/add')}
-        className="flex items-center justify-center py-8 text-center bg-white rounded-lg hover:cursor-pointer"
+        className="flex items-center justify-center py-3 text-center bg-white rounded-lg md:py-8 hover:cursor-pointer"
       >
         <div className="mr-2">New Recipe</div>
         <button className="text-xl">➕</button>

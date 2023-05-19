@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { DataContext } from '../context/DataContext'
 import { getStorage, ref as storageRef, getDownloadURL } from 'firebase/storage'
-import link from '../images/link.png'
 
 const Recipe = () => {
   const { recipeId } = useParams()
@@ -41,7 +40,7 @@ const Recipe = () => {
       {data && recipeId && data.hasOwnProperty(recipeId) && (
         <div className="mt-4 bg-white rounded-lg ">
           <div className="relative flex items-center justify-center h-32 overflow-hidden rounded-t-lg lg:h-64">
-            <div className="absolute z-10 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
+            <div className="absolute z-10 w-full text-center">
               <div
                 onClick={() => {
                   const url = data[recipeId]?.url
@@ -51,15 +50,12 @@ const Recipe = () => {
                 }}
                 className={`${
                   data[recipeId].url && 'underline hover:cursor-pointer'
-                } flex items-center text-2xl font-bold text-white md:text-4xl font-rochaline`}
+                } text-lg md:text-2xl font-bold text-white lg:text-4xl font-rochaline`}
               >
                 <div>{data[recipeId].title}</div>
-                {data[recipeId].url && (
-                  <img className="h-6 ml-3" src={link} alt="link" />
-                )}
               </div>
               {data[recipeId].subtitle && (
-                <div className="mt-2 text-lg text-white md:text-2xl font-rochaline">
+                <div className="mt-2 text-sm text-white md:text-lg lg:text-2xl font-rochaline">
                   {data[recipeId].subtitle}
                 </div>
               )}

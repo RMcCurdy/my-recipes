@@ -1,8 +1,11 @@
 import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import robert from '../images/bobJohn.png'
 
 const Home = () => {
   const { authenticated, setAuthenticated } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const [value, setValue] = useState<string>('')
   const [invalid, setInvalid] = useState<boolean>(false)
@@ -12,6 +15,7 @@ const Home = () => {
     setTime(new Date().toLocaleTimeString())
     if (value.toLowerCase() === 'marcia') {
       setAuthenticated(true)
+      navigate('/my-recipes/recipes')
     } else {
       setInvalid(true)
     }
@@ -19,7 +23,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="pt-10 text-4xl text-center font-coolvetica md:text-6xl lg:text-7xl">
+      <div className="pt-10 text-3xl text-center font-coolvetica md:text-6xl lg:text-7xl">
         Welcome to the wonderful world of Marcia and Robert's recipes!
       </div>
       {!authenticated && (
@@ -34,6 +38,7 @@ const Home = () => {
               onChange={(e) => setValue(e.target.value)}
             />
             <button
+              type="submit"
               className="px-2 py-1 border border-black rounded"
               onClick={() => handleClick(value)}
             >
@@ -47,11 +52,7 @@ const Home = () => {
         {invalid && !authenticated && (
           <div className="text-red-500">Wrong password ({time})</div>
         )}
-        {authenticated && (
-          <div className="mt-10 text-xl text-green-800">
-            Login successful. You can now view the website
-          </div>
-        )}
+        {authenticated && <img src={robert} alt="Robert" />}
       </div>
     </>
   )

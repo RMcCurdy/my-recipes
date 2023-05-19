@@ -181,7 +181,7 @@ const NewRecipe = () => {
           <div key={`${input.id}_${index}`}>
             <div className="mb-1">Step {index + 1}</div>
             <div className="flex items-center">
-              <input
+              <textarea
                 className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 key={input.id}
                 value={input.value}
@@ -231,9 +231,8 @@ const NewRecipe = () => {
       <hr className="mt-5 mb-3 border-green-200" />
       <div>
         Comments
-        <input
+        <textarea
           className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          type="text"
           onChange={(event) =>
             setValues({ ...values, comments: event.target.value })
           }

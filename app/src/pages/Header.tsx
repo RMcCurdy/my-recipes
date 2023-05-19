@@ -11,13 +11,13 @@ const Header = () => {
       <div className="items-center justify-between px-8 py-4 text-lg md:flex">
         <div
           onClick={() => navigate('/my-recipes')}
-          className="flex items-center justify-center mb-2 text-2xl md:mb-0 font-rochaline hover:cursor-pointer"
+          className="flex items-center justify-center mb-2 text-4xl md:mb-0 font-rochaline hover:cursor-pointer"
         >
           <img className="w-10 mx-2" src={logo} alt="Recipe Icon" />
           <div className="mx-2">Let's Cook!</div>
         </div>
         <nav>
-          <ul className="flex justify-center space-x-8 text-sm font-light md:text-base lg:text-lg">
+          <ul className="flex justify-center space-x-8 text-2xl font-rochaline md:text-base lg:text-2xl">
             <li
               className="hover:underline hover:cursor-pointer"
               onClick={() =>
@@ -36,7 +36,7 @@ const Header = () => {
                   : navigate('/my-recipes')
               }
             >
-              Ingredients Calculator
+              Calculator
             </li>
           </ul>
         </nav>

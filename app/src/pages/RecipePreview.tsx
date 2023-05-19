@@ -41,7 +41,7 @@ const RecipePreview = (props: RecipesProps) => {
       <div className="h-32 overflow-x-auto">
         {imageFromStorage && (
           <img
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full rounded-t-lg"
             src={imageFromStorage}
             alt="recipe"
           />
