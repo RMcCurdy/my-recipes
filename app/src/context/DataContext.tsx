@@ -4,11 +4,12 @@ interface RecipeType {
   [key: string]: {
     id: string
     title: string
-    subtitle: string
+    subtitle: string | null
     ingredients: { id: number; value: string }[]
     instructions: { id: number; value: string }[]
     image: string
-    comments: string
+    url: string | null
+    comments: string | null
   }
 }
 

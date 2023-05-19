@@ -3,14 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { getDatabase, ref, get } from 'firebase/database'
 import firebase from 'firebase/compat/app'
 import { DataContext } from '../context/DataContext'
+import RecipePreview from './RecipePreview'
 
 const Recipes = () => {
   const navigate = useNavigate()
   const { data, setData } = useContext(DataContext)
-
-  function handleClick(userId: string) {
-    navigate(`/my-recipes/recipe/${userId}`)
-  }
 
   const firebaseInitializedRef = useRef(false)
 
@@ -40,23 +37,13 @@ const Recipes = () => {
       {data ? (
         Object.entries(data).map(([key, value]) => {
           return (
-            <div key={key} className="bg-white rounded-lg">
-              <div className="flex items-center justify-center h-32 overflow-hidden rounded-t-lg lg:h-64">
-                <img className="w-full h-auto" src={value.image} alt="recipe" />
-              </div>
-              <div className="p-3">
-                <div className="text-lg font-coolvetica lg:text-2xl">
-                  {value.title}
-                </div>
-                <div>{value.subtitle}</div>
-                <button
-                  onClick={() => handleClick(value.id)}
-                  className="px-3 py-2 mt-2 bg-green-300 rounded"
-                >
-                  Go to Recipe
-                </button>
-              </div>
-            </div>
+            <RecipePreview
+              key={key}
+              image={value.image}
+              title={value.title}
+              subtitle={value.subtitle}
+              id={value.id}
+            />
           )
         })
       ) : (

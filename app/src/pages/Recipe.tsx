@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { DataContext } from '../context/DataContext'
+import link from '../images/link.png'
 
 const Recipe = () => {
   const { recipeId } = useParams()
@@ -13,18 +14,35 @@ const Recipe = () => {
     }
   })
 
+  console.log(data && recipeId && data[recipeId])
+
   return (
     <>
       {data && recipeId && data.hasOwnProperty(recipeId) && (
         <div className="mt-4 bg-white rounded-lg ">
           <div className="relative flex items-center justify-center h-32 overflow-hidden rounded-t-lg lg:h-64">
             <div className="absolute z-10 text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-              <div className="text-2xl font-bold text-white md:text-4xl font-rochaline">
-                {data[recipeId].title}
+              <div
+                onClick={() => {
+                  const url = data[recipeId]?.url
+                  if (url) {
+                    window.open(url, '_blank')
+                  }
+                }}
+                className={`${
+                  data[recipeId].url && 'underline hover:cursor-pointer'
+                } flex items-center text-2xl font-bold text-white md:text-4xl font-rochaline`}
+              >
+                <div>{data[recipeId].title}</div>
+                {data[recipeId].url && (
+                  <img className="h-6 ml-3" src={link} alt="link" />
+                )}
               </div>
-              <div className="text-lg text-white md:text-2xl font-rochaline">
-                {data[recipeId].subtitle}
-              </div>
+              {data[recipeId].subtitle && (
+                <div className="mt-2 text-lg text-white md:text-2xl font-rochaline">
+                  {data[recipeId].subtitle}
+                </div>
+              )}
             </div>
             <img
               className="z-0 w-full h-auto brightness-50"
@@ -48,14 +66,18 @@ const Recipe = () => {
               {data[recipeId].instructions.map((instruction, index) => {
                 return (
                   <div className="mb-3" key={`${instruction.id}_${index}`}>
-                    <div className="font-medium">Step {index}</div>
+                    <div className="font-medium">Step {index + 1}</div>
                     {instruction.value}
                   </div>
                 )
               })}
             </div>
-            <div className="mt-6 mb-4 text-2xl font-semibold">Comments</div>
-            <div>{data[recipeId].comments}</div>
+            {data[recipeId].comments && (
+              <>
+                <div className="mt-6 mb-4 text-2xl font-semibold">Comments</div>
+                <div>{data[recipeId].comments}</div>
+              </>
+            )}
           </div>
         </div>
       )}

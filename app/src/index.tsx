@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <div className="min-h-screen bg-emerald-200">
       <div className="spacing">
-        <div className="px-8">
+        <div className="px-8 pb-16">
           <AuthProvider>
             <DataProvider>
               <MyRecipeRoutes />

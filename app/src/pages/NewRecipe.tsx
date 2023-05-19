@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { getDatabase, ref, set } from 'firebase/database'
+import { getStorage, ref as storageRef, uploadBytes } from 'firebase/storage'
+import { useNavigate } from 'react-router-dom'
 
 type NewRecipeType = {
   title: null | string
@@ -12,6 +14,8 @@ type NewRecipeType = {
 }
 
 const NewRecipe = () => {
+  const navigate = useNavigate()
+
   const [values, setValues] = useState<NewRecipeType>({
     title: null,
     subtitle: null,
@@ -22,14 +26,18 @@ const NewRecipe = () => {
     comments: null,
   })
 
-  const [imageUpload, setImageUpload] = useState<string>('')
-  const [imagePreview, setImagePreview] = useState<string>('')
+  const [imageUpload, setImageUpload] = useState<File | null>(null)
+
+  const removeItem = <T extends { id: number; value: string }>(
+    array: T[],
+    property: keyof T,
+    value: T[keyof T]
+  ): T[] => {
+    return array.filter((item) => item[property] !== value)
+  }
 
   function handleAddNewRecipe() {
-    console.log(values)
-    console.log(imageUpload)
-    console.log(imagePreview)
-    if (values.title && values.image) {
+    if (values.title && imageUpload && values.url) {
       const today = new Date()
       const month = today.getMonth() + 1 // JavaScript counts months from 0, so add 1
       const day = today.getDate()
@@ -39,7 +47,11 @@ const NewRecipe = () => {
         database,
         `recipes/${values.title.replace(/\s/g, '')}${month}${day}${year}`
       )
-      console.log('setting')
+      const storage = getStorage()
+      const imageRef = storageRef(storage, `images/${imageUpload.name}`)
+
+      // 'file' comes from the Blob or File API
+      uploadBytes(imageRef, imageUpload)
       // Set data at the location
       set(dbRef, {
         id: `${values.title.replace(/\s/g, '')}${month}${day}${year}`,
@@ -47,16 +59,17 @@ const NewRecipe = () => {
         subtitle: values.subtitle,
         ingredients: values.ingredients,
         instructions: values.instructions,
-        image: values.image,
+        image: imageUpload.name,
         url: values.url,
         comments: values.comments,
+      }).then(() => {
+        navigate('/my-recipes/recipes')
       })
     }
   }
 
   const handleUploadedFiles = (e: any) => {
     if (e.target.files[0]) {
-      setImagePreview(URL.createObjectURL(e.target.files[0]))
       setImageUpload(e.target.files[0])
     }
   }
@@ -95,51 +108,106 @@ const NewRecipe = () => {
     setValues({ ...values, instructions: updatedInputs })
   }
 
+  const handleRemoveIngredient = (index: number) => {
+    const newIngredients = removeItem(values.ingredients, 'id', index)
+    setValues({ ...values, ingredients: newIngredients })
+  }
+
+  const handleRemoveInstruction = (index: number) => {
+    const newInstructions = removeItem(values.instructions, 'id', index)
+    setValues({ ...values, instructions: newInstructions })
+  }
+
   return (
-    <div>
-      <div>New Recipe time</div>
+    <div className="p-4 mt-4 bg-white rounded-lg">
+      <div className="mb-4 text-4xl font-semibold font-rochaline">
+        New Recipe
+      </div>
       <div>
-        Title
+        <div className="mb-3 text-lg">Title</div>
         <input
+          className="w-full p-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           onChange={(event) =>
             setValues({ ...values, title: event.target.value })
           }
         />
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
-        Subtitle
+        <div className="mb-3 text-lg">Subtitle</div>
         <input
+          className="w-full p-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           onChange={(event) =>
             setValues({ ...values, subtitle: event.target.value })
           }
         />
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
-        Ingredients
-        {values.ingredients.map((input) => (
-          <input
-            key={input.id}
-            value={input.value}
-            onChange={(event) => handleIngredientInputChange(event, input.id)}
-          />
-        ))}
-        <button onClick={handleAddIngredientInput}>Add Input</button>
+        <div className="mb-3 text-lg">Ingredients</div>
+        <div>
+          {values.ingredients.map((input) => (
+            <div className="flex items-center">
+              <input
+                className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                key={input.id}
+                value={input.value}
+                onChange={(event) =>
+                  handleIngredientInputChange(event, input.id)
+                }
+              />
+              <div
+                onClick={() => handleRemoveIngredient(input.id)}
+                className="mb-3 ml-3 text-red-600 hover:cursor-pointer"
+              >
+                X
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          className="px-3 py-2 bg-green-300 rounded"
+          onClick={handleAddIngredientInput}
+        >
+          Add Ingredient
+        </button>
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
-        Instructions
-        {values.instructions.map((input) => (
-          <input
-            key={input.id}
-            value={input.value}
-            onChange={(event) => handleInstructionsInputChange(event, input.id)}
-          />
+        <div className="mb-3 text-lg">Directions</div>
+        {values.instructions.map((input, index) => (
+          <>
+            <div className="mb-1">Step {index + 1}</div>
+            <div className="flex items-center">
+              <input
+                className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                key={input.id}
+                value={input.value}
+                onChange={(event) =>
+                  handleInstructionsInputChange(event, input.id)
+                }
+              />
+              <div
+                onClick={() => handleRemoveInstruction(input.id)}
+                className="mb-3 ml-3 text-red-600 hover:cursor-pointer"
+              >
+                X
+              </div>
+            </div>
+          </>
         ))}
-        <button onClick={handleAddInstructionsInput}>Add Input</button>
+        <button
+          className="px-3 py-2 bg-green-300 rounded"
+          onClick={handleAddInstructionsInput}
+        >
+          Add Direction
+        </button>
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
-        Image
+        <div className="mb-3 text-lg">Image</div>
         <button>
           <input
             type="file"
@@ -149,30 +217,37 @@ const NewRecipe = () => {
           />
         </button>
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
-        URL
+        <div className="mb-3 text-lg">URL</div>
         <input
+          className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           onChange={(event) =>
             setValues({ ...values, url: event.target.value })
           }
         />
       </div>
+      <hr className="mt-5 mb-3 border-green-200" />
       <div>
         Comments
         <input
+          className="w-full p-2 mb-3 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           onChange={(event) =>
             setValues({ ...values, comments: event.target.value })
           }
         />
       </div>
-      <button
-        className="px-3 py-2 bg-green-300 rounded"
-        onClick={() => handleAddNewRecipe()}
-      >
-        Add
-      </button>
+      <hr className="mt-5 mb-3 border-green-200" />
+      <div className="mt-8">
+        <button
+          className="px-3 py-2 bg-green-300 rounded"
+          onClick={() => handleAddNewRecipe()}
+        >
+          Add New Recipe
+        </button>
+      </div>
     </div>
   )
 }
