@@ -48,7 +48,10 @@ const NewRecipe = () => {
         `recipes/${values.title.replace(/\s/g, '')}${month}${day}${year}`
       )
       const storage = getStorage()
-      const imageRef = storageRef(storage, `images/${imageUpload.name}`)
+      const imageRef = storageRef(
+        storage,
+        `images/${values.title.replaceAll(' ', '')}`
+      )
 
       // 'file' comes from the Blob or File API
       uploadBytes(imageRef, imageUpload)
@@ -59,7 +62,7 @@ const NewRecipe = () => {
         subtitle: values.subtitle,
         ingredients: values.ingredients,
         instructions: values.instructions,
-        image: imageUpload.name,
+        image: values.title.replaceAll(' ', ''),
         url: values.url,
         comments: values.comments,
       }).then(() => {
